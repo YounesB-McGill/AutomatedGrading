@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
     <title>ECSE211 Lab Receipt Generator</title>
 
     <style>
@@ -13,8 +13,10 @@
       }
 
       .rb { display: none; }
-      .rl { padding: 20px; }
-      /* .button { background-color: coral } */
+      .rl { 
+        padding: 20px;
+        font-size: 16px;
+      }
 
       .button {
         background-color: white;
@@ -68,10 +70,12 @@
 
       var currentLab;
 
+      /** Shorthand for document.getElementById(). */
       function g(id) {
         return document.getElementById(id);
       }
 
+      /** Returns true if element is checked. */
       function c(input) {
         return g(input).checked;
       }
@@ -117,8 +121,8 @@
         var part3Notes = [null, (c("p_done")? 10 : 0) + "/10",
           "Distance Error: " + (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + "/5, Theta error: " +
               (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)) + "/5",
-          "Avoid all obstacles: " + c("oa_done")? 5 : 0 + "/0, Distance error: " +
-              c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0),
+          "Avoid all obstacles: " + (c("oa_done")? 5 : 0) + "/5, Distance error: " +
+              (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)) + "/5",
           "Theta error: " + (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + "/5, Distance error: " +
               (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))) + "/10",
           "TBA"
