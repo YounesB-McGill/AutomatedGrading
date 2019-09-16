@@ -64,6 +64,26 @@
         from {opacity: 0;}
         to {opacity: 1;}
       }
+
+      .group_num {
+        border: none;
+        outline: none;
+        border-bottom: 2px solid grey;
+      }
+
+      .group_num:focus {
+        border-bottom: 2px solid coral;
+      }
+
+      .clear_button {
+        background-color: inherit;
+        border: none;
+        outline: none;
+        padding: 7px 7px;
+        transition: 0.3s;
+        color: grey;
+        font-size: 15px;
+      }
     </style>
 
     <script>
@@ -137,6 +157,7 @@
 
         var receiptText = `
           <b>ECSE211 Lab ${currentLab} Receipt</b><br>
+          ${addGroupNumberToReceiptTextIfSet()}
           Questions: ${questions}/${questionWeight}<br>
           ${part2Names[currentLab]}: ${part2Notes[currentLab]}<br>
           ${part3Names[currentLab]}: ${part3Notes[currentLab]}<br>
@@ -206,11 +227,44 @@
         document.execCommand('copy');
         document.body.removeChild(el);
       }
+
+      /**
+       * Returns the group number, or null if not set or invalid.
+       */
+      function getGroupNumber() {
+        let n = g("group_num").value;
+        if (n == "" || isNaN(n))
+          return null;
+        return parseInt(n);
+      }
+      
+      /**
+       * Clears the group number, to allow writing another one easily.
+       */
+      function clearGroupNumber() {
+        g("group_num").value = "";
+        g("group_num").focus();
+      }
+
+      /**
+       * Adds the group number to receipt text if it is set.
+       */
+      function addGroupNumberToReceiptTextIfSet() {
+        const n = getGroupNumber();
+        if (n == null) return "";
+
+        return `Group number: ${n}<br>`;
+      }
     </script>
   </head>
 
   <body>
     <h1>&nbsp;&nbsp;ECSE211 Lab Receipt Generator</h1>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;Group Number:&nbsp;&nbsp;
+    <!-- Use telephone format to enforce numeric keypad -->
+    <input class="group_num" id="group_num" maxlength="2" type="tel">
+    <button class="clear_button" id="clear_group_num_btn" onclick="clearGroupNumber()">&times;</button>
 
     <h2>&nbsp;&nbsp;Lab number</h2>
 
