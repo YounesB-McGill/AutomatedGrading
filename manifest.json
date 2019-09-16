@@ -1,0 +1,17 @@
+{
+  "name": "ECSE211 Lab Receipt Generator",
+  "short_name": "Receipt Generator",
+  "icons": [{
+      "src": "img/ECSE211_org_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }, {
+      "src": "img/ECSE211_org_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }],
+  "start_url": "lab_receipt-beta.html",
+  "display": "standalone",
+  "background_color": "#FF7F50",
+  "theme_color": "#FF7F50"
+}
