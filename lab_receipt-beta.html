@@ -170,6 +170,7 @@
         // fallback used on old browsers
         var plainReceiptText =
           `ECSE211 Lab ${currentLab} Receipt\n` +
+          `${addGroupNumberToReceiptTextIfSet()}\n` +
           `Questions: ${questions}/${questionWeight}\n` +
           `${part2Names[currentLab]}: ${part2Notes[currentLab]}\n` +
           `${part3Names[currentLab]}: ${part3Notes[currentLab]}\n` +
