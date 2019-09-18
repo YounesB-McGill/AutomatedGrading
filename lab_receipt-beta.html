@@ -160,7 +160,7 @@
 
         var receiptText = `
           <b>ECSE211 Lab ${currentLab} Receipt</b><br>
-          ${addGroupNumberToReceiptTextIfSet()}
+          ${addGroupNumberToReceiptTextIfSet()}<br>
           Questions: ${questions}/${questionWeight}<br>
           ${part2Names[currentLab]}: ${part2Notes[currentLab]}<br>
           ${part3Names[currentLab]}: ${part3Notes[currentLab]}<br>
@@ -257,7 +257,7 @@
         const n = getGroupNumber();
         if (n == null) return "";
 
-        return `Group number: ${n}<br>`;
+        return `Group number: ${n}`;
       }
     </script>
   </head>
