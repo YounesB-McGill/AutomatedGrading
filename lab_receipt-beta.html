@@ -124,24 +124,27 @@
         receiptElement.innerHTML = "";
 
         var questions = c("part_und" + currentLab)? 5 : c("full_und" + currentLab)? 10 : 0;
+        if (currentLab == 5) questions /= 2;
         var questionWeight = (currentLab == 5? 5 : 10);
 
-        var part2Names = [null, "Bang-Bang Controller", "Float Motors", "Simple Navigation", "Ultrasonic Localization", "TBA"];
+        var part2Names = [null, "Bang-Bang Controller", "Float Motors", "Simple Navigation", "Ultrasonic Localization",
+            "Stationary Launch"];
         var part2Notes = [null, (c("bb_done")? 10 : 0) + "/10",
           "XY: " + (c("fmxy_done")? 5 : 0) + "/5, Theta: " + (c("fmt_done")? 5 : 0) + "/5",
           "Minimal Angle: " + (c("minangle_done")? 5 : 0) + "/5, Distance Error: " + 
               (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)) + "/5",
           (c("part_us")? 2.5 : (c("full_us")? 5 : 0)) + "/5",
-          "TBA"
+          c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0))) + "/10"
         ];
         var part2Grades = [null, c("bb_done")? 10 : 0,
           (c("fmxy_done")? 5 : 0) + (c("fmt_done")? 5 : 0),
           (c("minangle_done")? 5 : 0) + (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)),
           c("part_us")? 2.5 : (c("full_us")? 5 : 0),
-          null
+          c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0)))
         ];
 
-        var part3Names = [null, "P-Type Controller" , "Odometer Check", "Obstacle Avoidance", "Light Localization", "TBA"];
+        var part3Names = [null, "P-Type Controller" , "Odometer Check", "Obstacle Avoidance", "Light Localization",
+            "Mobile Launch"];
         var part3Notes = [null, (c("p_done")? 10 : 0) + "/10",
           "Distance Error: " + (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + "/5, Theta error: " +
               (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)) + "/5",
@@ -149,13 +152,13 @@
               (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)) + "/5",
           "Theta error: " + (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + "/5, Distance error: " +
               (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))) + "/10",
-          "TBA"
+          c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0))) + "/15"
         ];
         var part3Grades = [null, c("p_done")? 10 : 0,
           (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)),
           (c("oa_done")? 5 : 0) + (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)),
           (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))),
-          null
+          c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0)))
         ];
 
         var receiptText = `
@@ -395,7 +398,34 @@
     </div>
 
     <div id="lab5" class="tabcontent">
-      <h2>Project-specific lab scheme TBA</h2>
+      <h2>Questions (/5)</h2><br>
+      <span><input id=no_und5 class=rb name=qst5 type=radio><label class=rl for=no_und5>NO</label></span>
+      <span><input id=part_und5 class=rb name=qst5 type=radio><label class=rl for=part_und5>PARTIAL</label></span>
+      <span><input id=full_und5 class=rb name=qst5 type=radio><label class=rl for=full_und5>FULL</label></span>
+      <span>&nbsp;&nbsp;&nbsp;Understanding</span><br><br>
+
+      <h2>Stationary Launch (/10)</h2>
+      <b>Success rate (2 pts/ball landing within target):</b><br><br><br>
+      <span><input id=ssr0 class=rb name=ssr type=radio><label class=rl for=ssr0>0</label></span>
+      <span><input id=ssr1 class=rb name=ssr type=radio><label class=rl for=ssr1>1</label></span>
+      <span><input id=ssr2 class=rb name=ssr type=radio><label class=rl for=ssr2>2</label></span>
+      <span><input id=ssr3 class=rb name=ssr type=radio><label class=rl for=ssr3>3</label></span>
+      <span><input id=ssr4 class=rb name=ssr type=radio><label class=rl for=ssr4>4</label></span>
+      <span><input id=ssr5 class=rb name=ssr type=radio><label class=rl for=ssr5>5</label></span>
+      <br><br>
+
+      <h2>Mobile Launch (/15)</h2>
+      <b>Success rate (3 pts/ball landing within target):</b><br><br><br>
+      <span><input id=msr0 class=rb name=msr type=radio><label class=rl for=msr0>0</label></span>
+      <span><input id=msr1 class=rb name=msr type=radio><label class=rl for=msr1>1</label></span>
+      <span><input id=msr2 class=rb name=msr type=radio><label class=rl for=msr2>2</label></span>
+      <span><input id=msr3 class=rb name=msr type=radio><label class=rl for=msr3>3</label></span>
+      <span><input id=msr4 class=rb name=msr type=radio><label class=rl for=msr4>4</label></span>
+      <span><input id=msr5 class=rb name=msr type=radio><label class=rl for=msr5>5</label></span>
+      <br><br><br>
+
+      <button class="button" onclick="generateReceipt()"><b>GENERATE RECEIPT</b></button><br><br>
+      <div id=receipt5></div>
     </div>
   </body>
 
