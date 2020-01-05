@@ -1,0 +1,5 @@
+backend/.env
+backend/node_modules
+
+backend/key.pem
+backend/secrets.txt
