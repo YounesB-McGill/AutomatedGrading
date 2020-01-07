@@ -11,7 +11,24 @@ const querystring = require('querystring');
 const MS_AUTH_URL = "http://localhost:3000/";
 const MAIL_PATH = "mail";
 
-const WAIT_TIME = 3500;
+const WAIT_TIME = 3500; // ms
+
+const PORT = 8002;
+
+/** 
+ * Read into memory once at runtime to avoid reading the file each time a receipt is generated.
+ * 
+ * Each line must be in the format `<GROUP_NUM>,<EMAIL1>[,<EMAIL2>]`, eg
+ * 
+ *    `1,alice.apple@mail.mcgill.ca,please.pull@mail.mcgill.ca
+ *     2,donald.duck@mail.mcgill.ca,richard.reilly@mail.mcgill.ca`
+ */
+const studentEmails = Object.assign({}, ...fs.readFileSync("student-emails-by-group.csv", "utf8").split("\n")
+    .filter(line => line.includes("@"))
+    .map(line => {
+      const csl = line.split(",");
+      return { [parseInt(csl[0])]: csl.slice(1) };
+    }));
 
 const options = {
   key: fs.readFileSync('key.pem'),
@@ -33,7 +50,6 @@ try {
 
     // Switch to https when deploying to actual server
     var server = http.createServer(options, (request, response) => {
-      globalResponse = response;
       const { headers, method, url } = request;
       let body = [];
       console.log('Called app.js \n');
@@ -58,7 +74,7 @@ try {
         response.end();
 
       });
-    }).listen(8002);
+    }).listen(PORT);
 
   })();
 } catch (e) {
@@ -69,7 +85,7 @@ function handleQuery(page, query) {
   const {labNum, groupNum, receipt} = query;
 
   // Send email to students
-  const emails = ["name@example.com"]; // Get actual emails from groupNum
+  const emails = getEmailsFromGroupNum(groupNum);
   const subject = `ECSE211 Lab ${labNum} Receipt`;
   
   sendMail(page, emails, subject, receipt);
@@ -121,4 +137,8 @@ function makeEmailURL(addresses, subject, contents) {
     subject: subject,
     body: contents
   });
+}
+
+function getEmailsFromGroupNum(groupNum) {
+  return studentEmails[groupNum.toString()];
 }
