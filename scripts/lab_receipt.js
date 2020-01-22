@@ -1,7 +1,7 @@
 "use strict";
 
 // Switch to https when deploying to actual server
-const SERVER_URL = "http://localhost:8002/app.js";
+const SERVER_URL = "http://localhost:8003/app.js";
 
 var currentLab;
 
@@ -32,48 +32,48 @@ function openLab(evt, labNum) {
 }
 
 function generateReceipt() {
-  var receiptElement = g("receipt" + currentLab);
+  let receiptElement = g("receipt" + currentLab);
   receiptElement.innerHTML = "";
 
-  var questions = c("part_und" + currentLab)? 5 : c("full_und" + currentLab)? 10 : 0;
+  let questions = c("part_und" + currentLab)? 5 : c("full_und" + currentLab)? 10 : 0;
   if (currentLab == 5) questions /= 2;
-  var questionWeight = (currentLab == 5? 5 : 10);
+  const questionWeight = (currentLab == 5? 5 : 10);
 
-  var part2Names = [null, "Bang-Bang Controller", "Float Motors", "Simple Navigation", "Ultrasonic Localization",
+  const part2Names = [null, "Bang-Bang Controller", "Float Motors", "Ultrasonic Localization", "Simple Navigation",
       "Stationary Launch"];
-  var part2Notes = [null, (c("bb_done")? 10 : 0) + "/10",
+  const part2Notes = [null, (c("bb_done")? 10 : 0) + "/10",
     "XY: " + (c("fmxy_done")? 5 : 0) + "/5, Theta: " + (c("fmt_done")? 5 : 0) + "/5",
+    (c("part_us")? 2.5 : (c("full_us")? 5 : 0)) + "/5",
     "Minimal Angle: " + (c("minangle_done")? 5 : 0) + "/5, Distance Error: " + 
         (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)) + "/5",
-    (c("part_us")? 2.5 : (c("full_us")? 5 : 0)) + "/5",
     c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0))) + "/10"
   ];
-  var part2Grades = [null, c("bb_done")? 10 : 0,
+  const part2Grades = [null, c("bb_done")? 10 : 0,
     (c("fmxy_done")? 5 : 0) + (c("fmt_done")? 5 : 0),
-    (c("minangle_done")? 5 : 0) + (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)),
     c("part_us")? 2.5 : (c("full_us")? 5 : 0),
+    (c("minangle_done")? 5 : 0) + (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)),
     c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0)))
   ];
 
-  var part3Names = [null, "P-Type Controller" , "Odometer Check", "Obstacle Avoidance", "Light Localization",
+  const part3Names = [null, "P-Type Controller", "Odometer Check", "Light Localization", "Obstacle Avoidance", 
       "Mobile Launch"];
-  var part3Notes = [null, (c("p_done")? 10 : 0) + "/10",
+  const part3Notes = [null, (c("p_done")? 10 : 0) + "/10",
     "Distance Error: " + (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + "/5, Theta error: " +
         (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)) + "/5",
-    "Avoid all obstacles: " + (c("oa_done")? 5 : 0) + "/5, Distance error: " +
-        (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)) + "/5",
     "Theta error: " + (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + "/5, Distance error: " +
         (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))) + "/10",
+    "Avoid all obstacles: " + (c("oa_done")? 5 : 0) + "/5, Distance error: " +
+        (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)) + "/5",
     c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0))) + "/15"
   ];
-  var part3Grades = [null, c("p_done")? 10 : 0,
+  const part3Grades = [null, c("p_done")? 10 : 0,
     (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)),
-    (c("oa_done")? 5 : 0) + (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)),
     (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))),
+    (c("oa_done")? 5 : 0) + (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)),
     c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0)))
   ];
 
-  var receiptText = `
+  const receiptText = `
     <b>ECSE211 Lab ${currentLab} Receipt</b><br>
     ${addGroupNumberToReceiptTextIfSet()}<br>
     Questions: ${questions}/${questionWeight}<br>
@@ -83,7 +83,7 @@ function generateReceipt() {
   `;
 
   // fallback used on old browsers
-  var plainReceiptText =
+  const plainReceiptText =
     `ECSE211 Lab ${currentLab} Receipt\n` +
     `${addGroupNumberToReceiptTextIfSet()}\n` +
     `Questions: ${questions}/${questionWeight}\n` +
@@ -97,7 +97,8 @@ function generateReceipt() {
   // Call backend to email students and update spreadsheets (WIP)
   const groupNum = getGroupNumber();
   if (groupNum) {
-    callBackend(currentLab, groupNum, receiptText);
+    // Uncomment this once the backend is setup, or for local testing only
+    // callBackend(currentLab, groupNum, receiptText);
   } else {
     alert("Please enter a valid lab group number.");
   }
