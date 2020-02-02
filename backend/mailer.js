@@ -1,7 +1,5 @@
 "use strict";
 
-//require("dotenv").config();
-
 const fs = require("fs");
 const https = require("https");
 const http = require("http");
@@ -15,22 +13,7 @@ const MAIL_PATH = "mail";
 
 const WAIT_TIME = 3500; // ms
 
-const PORT = 8003;
-
-/** 
- * Read into memory once at runtime to avoid reading the file each time a receipt is generated.
- * 
- * Each line must be in the format `<GROUP_NUM>,<EMAIL1>[,<EMAIL2>]`, eg
- * 
- *    `1,alice.apple@mail.mcgill.ca,please.pull@mail.mcgill.ca
- *     2,donald.duck@mail.mcgill.ca,richard.reilly@mail.mcgill.ca`
- */
-const studentEmails = Object.assign({}, ...fs.readFileSync("student-emails-by-group.csv", "utf8").split("\n")
-    .filter(line => line.includes("@"))
-    .map(line => {
-      const csl = line.split(",");
-      return { [parseInt(csl[0])]: csl.slice(1) };
-    }));
+const PORT = 8002;
 
 const options = {
   key: fs.readFileSync('key.pem'),
@@ -141,6 +124,4 @@ function makeEmailURL(addresses, subject, contents) {
   });
 }
 
-function getEmailsFromGroupNum(groupNum) {
-  return studentEmails[groupNum.toString()];
-}
+exports.sendMail = sendMail;
