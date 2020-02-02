@@ -1,0 +1,7 @@
+# Travis CI config file
+language: java
+
+# Run targets defined in build.gradle
+# TODO SpotBugs, The 5th task should be sendmail
+
+script: ./gradlew checkstyle check spotbugs mockev3resources test
