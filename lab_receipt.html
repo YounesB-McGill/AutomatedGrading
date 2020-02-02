@@ -89,180 +89,8 @@
       }
     </style>
 
-    <script>
-      "use strict";
-
-      var currentLab;
-
-      /** Shorthand for document.getElementById(). */
-      function g(id) {
-        return document.getElementById(id);
-      }
-
-      /** Returns true if element is checked. */
-      function c(input) {
-        return g(input).checked;
-      }
-
-      function openLab(evt, labNum) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        currentLab = labNum;
-        g("lab" + labNum).style.display = "block";
-        evt.currentTarget.className += " active";
-      }
-
-      function generateReceipt() {
-        var receiptElement = g("receipt" + currentLab);
-        receiptElement.innerHTML = "";
-
-        var questions = c("part_und" + currentLab)? 5 : c("full_und" + currentLab)? 10 : 0;
-        if (currentLab == 5) questions /= 2;
-        var questionWeight = (currentLab == 5? 5 : 10);
-
-        var part2Names = [null, "Bang-Bang Controller", "Float Motors", "Simple Navigation", "Ultrasonic Localization",
-            "Stationary Launch"];
-        var part2Notes = [null, (c("bb_done")? 10 : 0) + "/10",
-          "XY: " + (c("fmxy_done")? 5 : 0) + "/5, Theta: " + (c("fmt_done")? 5 : 0) + "/5",
-          "Minimal Angle: " + (c("minangle_done")? 5 : 0) + "/5, Distance Error: " + 
-              (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)) + "/5",
-          (c("part_us")? 2.5 : (c("full_us")? 5 : 0)) + "/5",
-          c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0))) + "/10"
-        ];
-        var part2Grades = [null, c("bb_done")? 10 : 0,
-          (c("fmxy_done")? 5 : 0) + (c("fmt_done")? 5 : 0),
-          (c("minangle_done")? 5 : 0) + (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)),
-          c("part_us")? 2.5 : (c("full_us")? 5 : 0),
-          c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0)))
-        ];
-
-        var part3Names = [null, "P-Type Controller" , "Odometer Check", "Obstacle Avoidance", "Light Localization",
-            "Mobile Launch"];
-        var part3Notes = [null, (c("p_done")? 10 : 0) + "/10",
-          "Distance Error: " + (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + "/5, Theta error: " +
-              (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)) + "/5",
-          "Avoid all obstacles: " + (c("oa_done")? 5 : 0) + "/5, Distance error: " +
-              (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)) + "/5",
-          "Theta error: " + (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + "/5, Distance error: " +
-              (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))) + "/10",
-          c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0))) + "/15"
-        ];
-        var part3Grades = [null, c("p_done")? 10 : 0,
-          (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)),
-          (c("oa_done")? 5 : 0) + (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)),
-          (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))),
-          c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0)))
-        ];
-
-        var receiptText = `
-          <b>ECSE211 Lab ${currentLab} Receipt</b><br>
-          ${addGroupNumberToReceiptTextIfSet()}<br>
-          Questions: ${questions}/${questionWeight}<br>
-          ${part2Names[currentLab]}: ${part2Notes[currentLab]}<br>
-          ${part3Names[currentLab]}: ${part3Notes[currentLab]}<br>
-          <b>Total: ${questions + part2Grades[currentLab] + part3Grades[currentLab]}/30</b><br>
-        `;
-
-        // fallback used on old browsers
-        var plainReceiptText =
-          `ECSE211 Lab ${currentLab} Receipt\n` +
-          `${addGroupNumberToReceiptTextIfSet()}\n` +
-          `Questions: ${questions}/${questionWeight}\n` +
-          `${part2Names[currentLab]}: ${part2Notes[currentLab]}\n` +
-          `${part3Names[currentLab]}: ${part3Notes[currentLab]}\n` +
-          `Total: ${questions + part2Grades[currentLab] + part3Grades[currentLab]}/30\n`;
-
-        receiptElement.innerHTML += receiptText;
-        setClipboard(receiptText, plainReceiptText);
-      }
-
-      /**
-       * Sets the clipboard to text, or if that is not possible, to plaintext. 
-       * asyncClipboard should be enabled in Firefox.
-       * 
-       * See browser documentation on copying html to clipboard.
-       */
-      function setClipboard(text, plaintext) {
-        var fallback = () => legacySetClipboard(plaintext);
-        if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-          fallback();
-          return;
-        }
-
-        try {
-          navigator.permissions.query({name: "clipboard-write"}).then(result => {
-            try {
-              let data = new DataTransfer();
-
-              if (navigator.clipboard.write) {
-                data.items.add("text/html", text);
-                navigator.clipboard.write(data).then(() => {}, fallback);
-              } else if (navigator.clipboard.writeText) {
-                data.items.add("text/plain", plaintext);
-                navigator.clipboard.writeText(data.types[0]).then(() => {}, fallback);
-              } else {
-                fallback();
-              }
-            } catch (error) {
-              fallback();
-            }
-          });
-        } catch (error) {
-          fallback();
-        }
-      }
-
-      /**
-       *  Legacy method to copy plaintext to clipboard on old browsers.
-       *
-       *  Adapted from techoverflow.net/2018/03/30/copying-strings-to-the-clipboard-using-pure-javascript/
-       */
-       function legacySetClipboard(str) {
-        var el = document.createElement('textarea');
-        el.value = str;
-        el.setAttribute('readonly', '');
-        el.style = {position: 'absolute', left: '-9999px'};
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-      }
-
-      /**
-       * Returns the group number, or null if not set or invalid.
-       */
-      function getGroupNumber() {
-        let n = g("group_num").value;
-        if (n == "" || isNaN(n))
-          return null;
-        return parseInt(n);
-      }
-      
-      /**
-       * Clears the group number, to allow writing another one easily.
-       */
-      function clearGroupNumber() {
-        g("group_num").value = "";
-        g("group_num").focus();
-      }
-
-      /**
-       * Adds the group number to receipt text if it is set.
-       */
-      function addGroupNumberToReceiptTextIfSet() {
-        const n = getGroupNumber();
-        if (n == null) return "";
-
-        return `Group number: ${n}`;
-      }
-    </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/lab_receipt.js"></script>  
   </head>
 
   <body>
@@ -318,14 +146,14 @@
 
       <h2>Odometer Check (/10)</h2>
       <b>Distance error (cm):</b><br><br><br>
-      <span><input id=full_odod class=rb name=odod type=radio><label class=rl for=full_odod>[0, 2]</label></span>
-      <span><input id=part_odod class=rb name=odod type=radio><label class=rl for=part_odod>(2, 4]</label></span>
-      <span><input id=no_odod class=rb name=odod type=radio><label class=rl for=no_odod>(4, &infin;)</label></span>
+      <span><input id=full_odod class=rb name=odod type=radio><label class=rl for=full_odod>[0, 3]</label></span>
+      <span><input id=part_odod class=rb name=odod type=radio><label class=rl for=part_odod>(3, 6]</label></span>
+      <span><input id=no_odod class=rb name=odod type=radio><label class=rl for=no_odod>(6, &infin;)</label></span>
       <br><br><br>
       <b>Theta error (&deg;):</b><br><br><br>
-      <span><input id=full_odot class=rb name=odot type=radio><label class=rl for=full_odot>[0, 10]</label></span>
-      <span><input id=part_odot class=rb name=odot type=radio><label class=rl for=part_odot>(10, 20]</label></span>
-      <span><input id=no_odot class=rb name=odot type=radio><label class=rl for=no_odot>(20, 180]</label></span>
+      <span><input id=full_odot class=rb name=odot type=radio><label class=rl for=full_odot>[0, 15]</label></span>
+      <span><input id=part_odot class=rb name=odot type=radio><label class=rl for=part_odot>(15, 30]</label></span>
+      <span><input id=no_odot class=rb name=odot type=radio><label class=rl for=no_odot>(30, 180]</label></span>
       <br><br><br>
 
       <button class="button" onclick="generateReceipt()"><b>GENERATE RECEIPT</b></button><br><br>
@@ -337,6 +165,45 @@
       <span><input id=no_und3 class=rb name=qst3 type=radio><label class=rl for=no_und3>NO</label></span>
       <span><input id=part_und3 class=rb name=qst3 type=radio><label class=rl for=part_und3>PARTIAL</label></span>
       <span><input id=full_und3 class=rb name=qst3 type=radio><label class=rl for=full_und3>FULL</label></span>
+      <span>&nbsp;&nbsp;&nbsp;Understanding</span><br><br>
+
+      <h2>Angle Localization (/5)</h2>
+      <b>Theta error (&deg;):</b><br><br><br>
+      <span><input id=full_al class=rb name=angleloc type=radio><label class=rl for=full_al>[0, 10]</label></span>
+      <span><input id=part_al class=rb name=angleloc type=radio><label class=rl for=part_al>(10, 20]</label></span>
+      <span><input id=no_al class=rb name=angleloc type=radio><label class=rl for=no_al>(20, 180]</label></span>
+      <br><br>
+
+      <h2>Ultrasonic Localization (/15)</h2>
+      <b>Theta error (&deg;):</b> (/5)<br><br><br>
+      <span><input id=full_lt class=rb name=lt type=radio><label class=rl for=full_lt>[0, 5]</label></span>
+      <span><input id=part_lt class=rb name=lt type=radio><label class=rl for=part_lt>(5, 10]</label></span>
+      <span><input id=no_lt class=rb name=lt type=radio><label class=rl for=no_lt>(10, 180]</label></span>
+      <br><br><br>
+      <b>Distance error (cm):</b> (/10)<br><br><br>
+      <span><input id=ld10 class=rb name=ld type=radio><label class=rl for=ld10>[0, 3]</label></span>
+      <span><input id=ld7 class=rb name=ld type=radio><label class=rl for=ld7>(3, 6]</label></span>
+      <span><input id=ld5 class=rb name=ld type=radio><label class=rl for=ld5>(6, 9]</label></span>
+      <span><input id=ld0 class=rb name=ld type=radio><label class=rl for=ld0>(9, &infin;)</label></span>
+      <br><br><br>
+
+      <h2>BONUS Light Localization (/10)</h2>
+      <b>Distance error (cm):</b> (/10)<br><br><br>
+      <span><input id=lld10 class=rb name=lld type=radio><label class=rl for=lld10>[0, 2]</label></span>
+      <span><input id=lld7 class=rb name=lld type=radio><label class=rl for=lld7>(2, 4]</label></span>
+      <span><input id=lld5 class=rb name=lld type=radio><label class=rl for=lld5>(4, 6]</label></span>
+      <span><input id=lld0 class=rb name=lld type=radio><label class=rl for=lld0>(6, &infin;)</label></span>
+      <br><br><br>
+
+      <button class="button" onclick="generateReceipt()"><b>GENERATE RECEIPT</b></button><br><br>
+      <div id=receipt3></div>
+    </div>
+
+    <div id="lab4" class="tabcontent">
+      <h2>Questions (/10)</h2><br>
+      <span><input id=no_und4 class=rb name=qst4 type=radio><label class=rl for=no_und4>NO</label></span>
+      <span><input id=part_und4 class=rb name=qst4 type=radio><label class=rl for=part_und4>PARTIAL</label></span>
+      <span><input id=full_und4 class=rb name=qst4 type=radio><label class=rl for=full_und4>FULL</label></span>
       <span>&nbsp;&nbsp;&nbsp;Understanding</span><br><br>
 
       <h2>Simple Navigation (/10)</h2>
@@ -359,38 +226,6 @@
       <span><input id=full_anavd class=rb name=anavd type=radio><label class=rl for=full_anavd>[0, 2]</label></span>
       <span><input id=part_anavd class=rb name=anavd type=radio><label class=rl for=part_anavd>(2, 4]</label></span>
       <span><input id=no_anavd class=rb name=anavd type=radio><label class=rl for=no_anavd>(4, &infin;)</label></span>
-      <br><br><br>
-
-      <button class="button" onclick="generateReceipt()"><b>GENERATE RECEIPT</b></button><br><br>
-      <div id=receipt3></div>
-    </div>
-
-    <div id="lab4" class="tabcontent">
-      <h2>Questions (/10)</h2><br>
-      <span><input id=no_und4 class=rb name=qst4 type=radio><label class=rl for=no_und4>NO</label></span>
-      <span><input id=part_und4 class=rb name=qst4 type=radio><label class=rl for=part_und4>PARTIAL</label></span>
-      <span><input id=full_und4 class=rb name=qst4 type=radio><label class=rl for=full_und4>FULL</label></span>
-      <span>&nbsp;&nbsp;&nbsp;Understanding</span><br><br>
-
-      <h2>Ultrasonic Localization (/5)</h2>
-      <b>Theta error (&deg;):</b><br><br><br>
-      <span><input id=full_us class=rb name=usloc type=radio><label class=rl for=full_us>[0, 10]</label></span>
-      <span><input id=part_us class=rb name=usloc type=radio><label class=rl for=part_us>(10, 20]</label></span>
-      <span><input id=no_us class=rb name=usloc type=radio><label class=rl for=no_us>(20, 180]</label></span>
-      <br><br>
-
-      <h2>Light Localization (/15)</h2>
-      <b>Theta error (&deg;):</b> (/5)<br><br><br>
-      <span><input id=full_llt class=rb name=llt type=radio><label class=rl for=full_llt>[0, 5]</label></span>
-      <span><input id=part_llt class=rb name=llt type=radio><label class=rl for=part_llt>(5, 10]</label></span>
-      <span><input id=no_llt class=rb name=llt type=radio><label class=rl for=no_llt>(10, 180]</label></span>
-      <br><br><br>
-      <b>Distance error (cm):</b> (/10)<br><br><br>
-      <span><input id=lld10 class=rb name=lld type=radio><label class=rl for=lld10>[0, 2]</label></span>
-      <span><input id=lld7 class=rb name=lld type=radio><label class=rl for=lld7>(2, 4]</label></span>
-      <span><input id=lld5 class=rb name=lld type=radio><label class=rl for=lld5>(4, 6]</label></span>
-      <span><input id=lld2 class=rb name=lld type=radio><label class=rl for=lld2>(6, 8]</label></span>
-      <span><input id=lld0 class=rb name=lld type=radio><label class=rl for=lld0>(8, &infin;)</label></span>
       <br><br><br>
 
       <button class="button" onclick="generateReceipt()"><b>GENERATE RECEIPT</b></button><br><br>
