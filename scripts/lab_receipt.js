@@ -39,36 +39,40 @@ function generateReceipt() {
   if (currentLab == 5) questions /= 2;
   const questionWeight = (currentLab == 5? 5 : 10);
 
-  const part2Names = [null, "Bang-Bang Controller", "Float Motors", "Ultrasonic Localization", "Simple Navigation",
+  const part2Names = [null, "Bang-Bang Controller", "Float Motors", "Angle Localization", "Simple Navigation",
       "Stationary Launch"];
   const part2Notes = [null, (c("bb_done")? 10 : 0) + "/10",
     "XY: " + (c("fmxy_done")? 5 : 0) + "/5, Theta: " + (c("fmt_done")? 5 : 0) + "/5",
-    (c("part_us")? 2.5 : (c("full_us")? 5 : 0)) + "/5",
+    (c("part_al")? 2.5 : (c("full_al")? 5 : 0)) + "/5",
     "Minimal Angle: " + (c("minangle_done")? 5 : 0) + "/5, Distance Error: " + 
         (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)) + "/5",
     c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0))) + "/10"
   ];
   const part2Grades = [null, c("bb_done")? 10 : 0,
     (c("fmxy_done")? 5 : 0) + (c("fmt_done")? 5 : 0),
-    c("part_us")? 2.5 : (c("full_us")? 5 : 0),
+    c("part_al")? 2.5 : (c("full_al")? 5 : 0),
     (c("minangle_done")? 5 : 0) + (c("part_snavd")? 2.5 : (c("full_snavd")? 5 : 0)),
     c("ssr1")? 2 : (c("ssr2")? 4 : (c("ssr3")? 6 : (c("ssr4")? 8 : c("ssr5")? 10 : 0)))
   ];
 
-  const part3Names = [null, "P-Type Controller", "Odometer Check", "Light Localization", "Obstacle Avoidance", 
+  const part3Names = [null, "P-Type Controller", "Odometer Check", "Ultrasonic Localization", "Obstacle Avoidance", 
       "Mobile Launch"];
   const part3Notes = [null, (c("p_done")? 10 : 0) + "/10",
     "Distance Error: " + (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + "/5, Theta error: " +
         (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)) + "/5",
-    "Theta error: " + (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + "/5, Distance error: " +
-        (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))) + "/10",
+    "Theta error: " + (c("part_lt")? 2.5 : (c("full_lt")? 5 : 0)) + "/5, Distance error: " +
+        (c("ld5")? 5 : (c("ld7")? 7.5 : (c("ld10")? 10 : 0))) + "/10" +
+        (["lld5", "lld7", "lld10"].some(e => c(e))?
+            "<br>Light Localization (Bonus): " + (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0))) + "/10" :
+            ""),
     "Avoid all obstacles: " + (c("oa_done")? 5 : 0) + "/5, Distance error: " +
         (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)) + "/5",
     c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0))) + "/15"
   ];
   const part3Grades = [null, c("p_done")? 10 : 0,
     (c("part_odod")? 2.5 : (c("full_odod")? 5 : 0)) + (c("part_odot")? 2.5 : (c("full_odot")? 5 : 0)),
-    (c("part_llt")? 2.5 : (c("full_llt")? 5 : 0)) + (c("lld2")? 2.5 : (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0)))),
+    (c("part_lt")? 2.5 : (c("full_lt")? 5 : 0)) + (c("ld5")? 5 : (c("ld7")? 7.5 : (c("ld10")? 10 : 0))) +
+        (c("lld5")? 5 : (c("lld7")? 7.5 : (c("lld10")? 10 : 0))),
     (c("oa_done")? 5 : 0) + (c("part_anavd")? 2.5 : (c("full_anavd")? 5 : 0)),
     c("msr1")? 3 : (c("msr2")? 6 : (c("msr3")? 9 : (c("msr4")? 12 : c("msr5")? 15 : 0)))
   ];

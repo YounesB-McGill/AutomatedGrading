@@ -146,14 +146,14 @@
 
       <h2>Odometer Check (/10)</h2>
       <b>Distance error (cm):</b><br><br><br>
-      <span><input id=full_odod class=rb name=odod type=radio><label class=rl for=full_odod>[0, 2]</label></span>
-      <span><input id=part_odod class=rb name=odod type=radio><label class=rl for=part_odod>(2, 4]</label></span>
-      <span><input id=no_odod class=rb name=odod type=radio><label class=rl for=no_odod>(4, &infin;)</label></span>
+      <span><input id=full_odod class=rb name=odod type=radio><label class=rl for=full_odod>[0, 3]</label></span>
+      <span><input id=part_odod class=rb name=odod type=radio><label class=rl for=part_odod>(3, 6]</label></span>
+      <span><input id=no_odod class=rb name=odod type=radio><label class=rl for=no_odod>(6, &infin;)</label></span>
       <br><br><br>
       <b>Theta error (&deg;):</b><br><br><br>
-      <span><input id=full_odot class=rb name=odot type=radio><label class=rl for=full_odot>[0, 10]</label></span>
-      <span><input id=part_odot class=rb name=odot type=radio><label class=rl for=part_odot>(10, 20]</label></span>
-      <span><input id=no_odot class=rb name=odot type=radio><label class=rl for=no_odot>(20, 180]</label></span>
+      <span><input id=full_odot class=rb name=odot type=radio><label class=rl for=full_odot>[0, 15]</label></span>
+      <span><input id=part_odot class=rb name=odot type=radio><label class=rl for=part_odot>(15, 30]</label></span>
+      <span><input id=no_odot class=rb name=odot type=radio><label class=rl for=no_odot>(30, 180]</label></span>
       <br><br><br>
 
       <button class="button" onclick="generateReceipt()"><b>GENERATE RECEIPT</b></button><br><br>
@@ -167,25 +167,32 @@
       <span><input id=full_und3 class=rb name=qst3 type=radio><label class=rl for=full_und3>FULL</label></span>
       <span>&nbsp;&nbsp;&nbsp;Understanding</span><br><br>
 
-      <h2>Ultrasonic Localization (/5)</h2>
+      <h2>Angle Localization (/5)</h2>
       <b>Theta error (&deg;):</b><br><br><br>
-      <span><input id=full_us class=rb name=usloc type=radio><label class=rl for=full_us>[0, 10]</label></span>
-      <span><input id=part_us class=rb name=usloc type=radio><label class=rl for=part_us>(10, 20]</label></span>
-      <span><input id=no_us class=rb name=usloc type=radio><label class=rl for=no_us>(20, 180]</label></span>
+      <span><input id=full_al class=rb name=angleloc type=radio><label class=rl for=full_al>[0, 10]</label></span>
+      <span><input id=part_al class=rb name=angleloc type=radio><label class=rl for=part_al>(10, 20]</label></span>
+      <span><input id=no_al class=rb name=angleloc type=radio><label class=rl for=no_al>(20, 180]</label></span>
       <br><br>
 
-      <h2>Light Localization (/15)</h2>
+      <h2>Ultrasonic Localization (/15)</h2>
       <b>Theta error (&deg;):</b> (/5)<br><br><br>
-      <span><input id=full_llt class=rb name=llt type=radio><label class=rl for=full_llt>[0, 5]</label></span>
-      <span><input id=part_llt class=rb name=llt type=radio><label class=rl for=part_llt>(5, 10]</label></span>
-      <span><input id=no_llt class=rb name=llt type=radio><label class=rl for=no_llt>(10, 180]</label></span>
+      <span><input id=full_lt class=rb name=lt type=radio><label class=rl for=full_lt>[0, 5]</label></span>
+      <span><input id=part_lt class=rb name=lt type=radio><label class=rl for=part_lt>(5, 10]</label></span>
+      <span><input id=no_lt class=rb name=lt type=radio><label class=rl for=no_lt>(10, 180]</label></span>
       <br><br><br>
+      <b>Distance error (cm):</b> (/10)<br><br><br>
+      <span><input id=ld10 class=rb name=ld type=radio><label class=rl for=ld10>[0, 3]</label></span>
+      <span><input id=ld7 class=rb name=ld type=radio><label class=rl for=ld7>(3, 6]</label></span>
+      <span><input id=ld5 class=rb name=ld type=radio><label class=rl for=ld5>(6, 9]</label></span>
+      <span><input id=ld0 class=rb name=ld type=radio><label class=rl for=ld0>(9, &infin;)</label></span>
+      <br><br><br>
+
+      <h2>BONUS Light Localization (/10)</h2>
       <b>Distance error (cm):</b> (/10)<br><br><br>
       <span><input id=lld10 class=rb name=lld type=radio><label class=rl for=lld10>[0, 2]</label></span>
       <span><input id=lld7 class=rb name=lld type=radio><label class=rl for=lld7>(2, 4]</label></span>
       <span><input id=lld5 class=rb name=lld type=radio><label class=rl for=lld5>(4, 6]</label></span>
-      <span><input id=lld2 class=rb name=lld type=radio><label class=rl for=lld2>(6, 8]</label></span>
-      <span><input id=lld0 class=rb name=lld type=radio><label class=rl for=lld0>(8, &infin;)</label></span>
+      <span><input id=lld0 class=rb name=lld type=radio><label class=rl for=lld0>(6, &infin;)</label></span>
       <br><br><br>
 
       <button class="button" onclick="generateReceipt()"><b>GENERATE RECEIPT</b></button><br><br>
